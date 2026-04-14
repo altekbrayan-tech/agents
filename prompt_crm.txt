@@ -1,0 +1,15 @@
+CONTEXTO DE NEGOCIO:
+Diseñar un CRM para "Soluciones Hidráulicas PH" (Colombia). 
+Módulos: Gestión de conjuntos (con incremento IPC), Bitácoras digitales (fotos/firmas), Asignación de tareas a técnicos (Estados: Pendiente, En Ejecución, Finalizada) y Alertas de lavado de tanques cada 6 meses vía n8n/WhatsApp.
+
+REQUERIMIENTO TÉCNICO DE IMPLEMENTACIÓN:
+Actúa como un Senior Full-Stack Developer. No quiero un resumen, quiero el código fuente completo. 
+Debes generar bloques de código para los siguientes archivos:
+
+1. Backend/Models.cs: Entidades ResidentialUnit, WorkTask (con Enum de estados), y Contract (con lógica de incremento IPC).
+2. Backend/TaskController.cs: API Controllers para CRUD de tareas y logs de auditoría.
+3. Frontend/TaskBoard.jsx: Componente React + Tailwind para que el técnico gestione sus tareas.
+4. n8n/workflow_tanques.json: El JSON exportable para la automatización.
+
+DETALLES ADICIONALES:
+Usa .NET 10. La lógica del IPC debe ser una función ejecutable en C#. El Frontend debe ser mobile-first.
