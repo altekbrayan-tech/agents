@@ -1,15 +1,14 @@
-CONTEXTO DE NEGOCIO:
-Diseñar un CRM para "Soluciones Hidráulicas PH" (Colombia). 
-Módulos: Gestión de conjuntos (con incremento IPC), Bitácoras digitales (fotos/firmas), Asignación de tareas a técnicos (Estados: Pendiente, En Ejecución, Finalizada) y Alertas de lavado de tanques cada 6 meses vía n8n/WhatsApp.
+OBJETIVO: Implementación de la Capa de Datos y API Base para Soluciones Hidráulicas PH.
 
-REQUERIMIENTO TÉCNICO DE IMPLEMENTACIÓN:
-Actúa como un Senior Full-Stack Developer. No quiero un resumen, quiero el código fuente completo. 
-Debes generar bloques de código para los siguientes archivos:
+DIRECTRIZ PARA EL ARQUITECTO:
+Genera un archivo SQL con tablas para: 'unidades_residenciales', 'contratos', 'tareas' y 'logs_auditoria'. 
+Asegúrate de que los tipos de datos sean compatibles con PostgreSQL (usar UUID o SERIAL).
 
-1. Backend/Models.cs: Entidades ResidentialUnit, WorkTask (con Enum de estados), y Contract (con lógica de incremento IPC).
-2. Backend/TaskController.cs: API Controllers para CRUD de tareas y logs de auditoría.
-3. Frontend/TaskBoard.jsx: Componente React + Tailwind para que el técnico gestione sus tareas.
-4. n8n/workflow_tanques.json: El JSON exportable para la automatización.
+DIRECTRIZ PARA EL DESARROLLADOR:
+Escribe el código fuente de .NET 10 para:
+1. Models/ResidentialUnit.cs (Campos: Id, NIT, Nombre, Direccion, EmailAdmin).
+2. Models/Contract.cs (Lógica: Método 'AplicarIncrementoIPC' que reciba decimal y actualice el PrecioBase).
+3. Data/ApplicationDbContext.cs (Configuración de conexión y Fluent API para NIT único).
+4. Controllers/ConjuntosController.cs (Endpoints CRUD completos).
 
-DETALLES ADICIONALES:
-Usa .NET 10. La lógica del IPC debe ser una función ejecutable en C#. El Frontend debe ser mobile-first.
+PROHIBIDO: Usar "// ...", "Implementar después" o resúmenes. Si no escribes el código completo, el sistema fallará.

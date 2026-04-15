@@ -1,9 +1,49 @@
- Aquí tienes el contenido completo para los archivos `ApplicationDbContext.cs` y `ConjuntosController.cs` que has proporcionado:
+ Aquí tienes el contenido completo para los archivos solicitados en tu proyecto CRM_Soluciones_Hidraulicas_Backend:
+
+--- ARCHIVO: Models/Entities.cs ---
+```csharp
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace SolutionsHydraulic.Models
+{
+    public enum TaskStatus { Pendiente, EnCamino, EnEjecucion, EnRevision, Finalizada, Cancelada }
+
+    public class ResidentialUnit
+    {
+        public int Id { get; set; }
+        public string NIT { get; set; }
+        public string Nombre { get; set; }
+        public string Direccion { get; set; }
+        public string Telefono { get; set; }
+        public string EmailAdmin { get; set; }
+    }
+
+    public class Contract
+    {
+        public int Id { get; set; }
+        public int UnitId { get; set; }
+        public decimal PrecioBase { get; set; }
+        public decimal IpcIncremento { get; set; }
+        public DateTime UltimoAumento { get; set; }
+    }
+
+    public class WorkTask
+    {
+        public int Id { get; set; }
+        public int UnitId { get; set; }
+        public string TecnicoId { get; set; }
+        public TaskStatus Estado { get; set; }
+        public string Descripcion { get; set; }
+        public DateTime FechaProgramada { get; set; }
+    }
+}
+```
 
 --- ARCHIVO: Data/ApplicationDbContext.cs ---
 ```csharp
 using Microsoft.EntityFrameworkCore;
-using SolutionsHydraulic.Models;
 
 namespace SolutionsHydraulic.Data
 {
@@ -11,23 +51,23 @@ namespace SolutionsHydraulic.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<ResidentialUnit> ResidentialUnits { get; set; }
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<WorkTask> WorkTasks { get; set; }
+        public DbSet<Models.ResidentialUnit> ResidentialUnits { get; set; }
+        public DbSet<Models.Contract> Contracts { get; set; }
+        public DbSet<Models.WorkTask> WorkTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ResidentialUnit>()
+            modelBuilder.Entity<Models.ResidentialUnit>()
                 .Property(r => r.NIT)
                 .IsRequired();
 
-            modelBuilder.Entity<Contract>()
+            modelBuilder.Entity<Models.Contract>()
                 .HasIndex(c => c.UnitId)
                 .IsUnique();
 
-            modelBuilder.Entity<WorkTask>()
+            modelBuilder.Entity<Models.WorkTask>()
                 .Property(t => t.Estado)
                 .HasConversion<string>();
         }

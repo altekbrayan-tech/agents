@@ -6,56 +6,57 @@ def ejecutar_mision_desde_archivo():
     print("\n--- 🚀 INICIANDO FÁBRICA DE SOFTWARE ---")
     
     nombre_archivo = "prompt_crm.txt"
+    proyecto = "CRM_Soluciones_Hidraulicas"
     
     if not os.path.exists(nombre_archivo):
         print(f"❌ Error: No encuentro el archivo {nombre_archivo}")
         return
 
-    # Leer el prompt completo desde el archivo
+    # 1. Leer el prompt completo
     with open(nombre_archivo, "r", encoding="utf-8") as f:
         instruccion_completa = f.read()
 
-    proyecto = "CRM_Soluciones_Hidraulicas"
+    # 2. Crear carpeta del proyecto si no existe
     if not os.path.exists(proyecto):
         os.makedirs(proyecto)
 
-    # Cargar agentes desde tu librería
+    # 3. Cargar agentes
     arq = obtener_arquitecto()
     dev = obtener_desarrollador()
 
-   # Modificación en fabrica.py para mayor detalle
+    # 4. Definir Tareas con salida a archivos individuales
     t1 = Task(
-        description=f"Diseñar ÚNICAMENTE el modelo de datos PostgreSQL y la lógica de incremento IPC en C# para: {instruccion_completa}",
-        expected_output="Código SQL de tablas y Clase C# de cálculo IPC.",
-        agent=arq
+        description=f"Escribir el script SQL para PostgreSQL y las Entidades en C# (.NET 10) basadas en: {instruccion_completa}",
+        expected_output="Contenido completo de Database.sql y Models.cs sin omisiones.",
+        agent=arq,
+        output_file=f"{proyecto}/Infraestructura.cs"
     )
     
     t2 = Task(
-        description="Crear los Controllers de .NET 10 para la gestión de tareas, bitácoras y carga de fotos.",
-        expected_output="Archivos .cs completos con endpoints de Swagger.",
+        description="Escribir el ApplicationDbContext.cs y el ConjuntosController.cs con la lógica de IPC completa.",
+        expected_output="Código C# funcional, incluyendo el endpoint de incremento de IPC.",
         agent=dev,
-        context=[t1]
+        context=[t1],
+        output_file=f"{proyecto}/Controladores.cs"
     )
 
-    t3 = Task(
-        description="Diseñar el flujo de n8n (JSON) para las alertas de 15 días y el brochure mensual.",
-        expected_output="Archivo JSON compatible con n8n.",
-        agent=dev, # O puedes crear un agente experto en n8n
-        context=[t1]
+    # 5. Configurar el equipo (Crew)
+    equipo = Crew(
+        agents=[arq, dev], 
+        tasks=[t1, t2], 
+        verbose=True
     )
-
-    # El Crew ejecutando en tu servidor Xeon
-    equipo = Crew(agents=[arq, dev], tasks=[t1, t2], verbose=True)
     
     print(f"⏳ Procesando requerimiento extenso en el servidor...")
     resultado = equipo.kickoff()
 
-    # Guardar en la carpeta del proyecto
+    # 6. Guardar resumen final
     ruta_resultado = f"{proyecto}/diseño_final.md"
     with open(ruta_resultado, "w", encoding="utf-8") as f:
         f.write(str(resultado))
     
     print(f"\n✅ ¡Éxito! Todo el diseño se ha guardado en: {ruta_resultado}")
 
+# 7. Ejecución principal (asegúrate de que esté pegado al margen izquierdo)
 if __name__ == "__main__":
     ejecutar_mision_desde_archivo()
